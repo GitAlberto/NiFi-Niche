@@ -1,0 +1,8 @@
+# environment variables
+.env
+
+# registries
+/registry/*
+
+# nifi
+/nifi/*
