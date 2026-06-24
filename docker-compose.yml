@@ -1,0 +1,60 @@
+services:
+
+  # ─────────────────────────────────────────
+  # NIFI 2.6
+  # ─────────────────────────────────────────
+  nifi:
+    image: apache/nifi:2.6.0
+    container_name: nifi-local
+    ports:
+      - "8443:8443"
+    environment:
+      - SINGLE_USER_CREDENTIALS_USERNAME=${NIFI_USERNAME}
+      - SINGLE_USER_CREDENTIALS_PASSWORD=${NIFI_PASSWORD}
+      - NIFI_WEB_HTTPS_PORT=8443
+    volumes:
+      - ./nifishare:/opt/nifi/nifi-current/nifishare
+      - nifi_conf:/opt/nifi/nifi-current/conf
+      - nifi_logs:/opt/nifi/nifi-current/logs
+    depends_on:
+      - nifi-registry
+      - postgres
+    restart: unless-stopped
+
+  # ─────────────────────────────────────────
+  # NIFI REGISTRY
+  # ─────────────────────────────────────────
+  nifi-registry:
+    image: apache/nifi-registry:1.27.0
+    container_name: nifi-registry-local
+    ports:
+      - "18080:18080"
+    volumes:
+      - ./registry/flow_storage:/opt/nifi-registry/nifi-registry-current/flow_storage
+      - registry_conf:/opt/nifi-registry/nifi-registry-current/conf
+    restart: unless-stopped
+
+  # ─────────────────────────────────────────
+  # POSTGRESQL
+  # ─────────────────────────────────────────
+  postgres:
+    image: postgres:16
+    container_name: postgres-local
+    ports:
+      - "5436:5432"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+# ─────────────────────────────────────────
+# VOLUMES PERSISTANTS
+# ─────────────────────────────────────────
+volumes:
+  nifi_conf:
+  nifi_logs:
+  registry_conf:
+  postgres_data:
