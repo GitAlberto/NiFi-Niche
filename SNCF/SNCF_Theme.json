@@ -1,0 +1,16 @@
+{
+  "name": "Theme SNCF",
+  "dataColors": [
+    "#E2001A",
+    "#3D3D3D",
+    "#808080",
+    "#C0392B",
+    "#B0B0B0",
+    "#F2F2F2",
+    "#1A1A1A",
+    "#FF6B6B"
+  ],
+  "background": "#FFFFFF",
+  "foreground": "#3D3D3D",
+  "tableAccent": "#E2001A"
+}

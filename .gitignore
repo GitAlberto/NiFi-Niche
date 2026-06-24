@@ -6,3 +6,6 @@
 
 # nifi
 /nifi/*
+
+# database
+/registry/database/*
